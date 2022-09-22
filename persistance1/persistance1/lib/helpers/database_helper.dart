@@ -1,9 +1,11 @@
 import 'dart:io';
 
-import 'package:persistence/models/cat_model.dart';
+import 'package:persistance1/models/cat_model.dart';
 import 'package:sqflite/sqflite.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+// ignore: duplicate_import
 import "dart:io";
 
 class DatabaseHelper {
