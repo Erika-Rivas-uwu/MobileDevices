@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:persistence/helpers/database_helper.dart';
-import 'package:persistence/models/cat_model.dart';
+import 'package:persistance1/helpers/database_helper.dart';
+import 'package:persistance1/models/cat_model.dart';
+
+import '../helpers/database_helper.dart';
+import '../models/cat_model.dart';
 
 //ctrl+. para convertir a statefulwidget
 class HomeScreen extends StatefulWidget {
@@ -62,8 +65,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     //snapshot no esta vacio?
                     return snapshot.data!.isEmpty
                         ? Center(
+                            // ignore: avoid_unnecessary_containers
                             child: Container(
-                              child: Text("No cats in the list"),
+                              child: const Text("No cats in the list"),
                             ),
                           )
                         : ListView(
@@ -71,27 +75,35 @@ class _HomeScreenState extends State<HomeScreen> {
                             shrinkWrap: true,
                             children: snapshot.data!.map((cat) {
                               return Center(
-                                  child: ListTile(
-                                title: Text(
-                                    'Name: ${cat.name} | Race: ${cat.race}'),
-                                onLongPress: () {
-                                  setState(() {
-                                    DatabaseHelper.instance.delete(cat.id!);
-                                  });
-                                },
-                                onTap: () {
-                                  setState(() {
-                                    if (catId == null) {
-                                      textControllerName.text = cat.name;
-                                      textControllerRace.text = cat.race;
-                                      catId = cat.id;
-                                    } else {
-                                      textControllerName.clear();
-                                      textControllerRace.clear();
-                                      catId = null;
-                                    }
-                                  });
-                                },
+                                  child: Card(
+                                color: catId == cat.id
+                                    ? Colors.amber
+                                    : Colors.white,
+                                child: ListTile(
+                                  textColor: catId == cat.id
+                                      ? Colors.white
+                                      : Colors.black,
+                                  title: Text(
+                                      'Name: ${cat.name} | Race: ${cat.race}'),
+                                  onLongPress: () {
+                                    setState(() {
+                                      DatabaseHelper.instance.delete(cat.id!);
+                                    });
+                                  },
+                                  onTap: () {
+                                    setState(() {
+                                      if (catId == null) {
+                                        textControllerName.text = cat.name;
+                                        textControllerRace.text = cat.race;
+                                        catId = cat.id;
+                                      } else {
+                                        textControllerName.clear();
+                                        textControllerRace.clear();
+                                        catId = null;
+                                      }
+                                    });
+                                  },
+                                ),
                               ));
                             }).toList());
                   }
